@@ -1,4 +1,6 @@
-import { supabase } from "./supabaseClient"
+import { createClient } from "./supabaseClient"
+
+const supabase = createClient();
 
 interface SignUpParams {
   email: string
@@ -44,26 +46,29 @@ export async function signUp({
 }
 
 export async function signIn(matricNumber: string, password: string) {
-  // 1️⃣ Get user email from matric number
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("email")
-    .eq("matric_number", matricNumber)
-    .single()
+  // 1️⃣ Get email from matric number using RPC
+  const { data: email, error: lookupError } = await supabase.rpc(
+    "get_email_by_matric",
+    { p_matric: matricNumber }
+  )
 
-  if (error) throw new Error("Matric number not found.")
+  if (lookupError) {
+    throw new Error("Unable to verify matric number.")
+  }
 
-  if (!data.email) throw new Error("Email not set for this account.")
+  if (!email) {
+    throw new Error("Matric number not found.")
+  }
 
   // 2️⃣ Sign in using email
-  const { data: userData, error: signInError } = await supabase.auth.signInWithPassword({
-    email: data.email,
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
     password,
   })
 
-  if (signInError) throw signInError
+  if (error) throw error
 
-  return userData.user
+  return data.user
 }
 
 export async function signOut() {

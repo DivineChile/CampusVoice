@@ -5,6 +5,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { signUp } from "@/lib/auth"
 import { showToast } from "../ui/toast"
+import { getAuthErrorMessage } from "@/lib/authErrors"
 
 // --- Types ---
 interface FormData {
@@ -168,13 +169,8 @@ export default function RegisterForm() {
       }, 1200)
 
     } catch (err: any) {
-      if (err.message.includes("User already registered")) {
-        showToast("An account with this email already exists.", "error")
-      }
-
-      else {
-        showToast( "Registration failed. Please try again.", "error")
-      }
+     const message = getAuthErrorMessage(err)
+     showToast(message, "error")
     } finally {
       setIsLoading(false)
     }

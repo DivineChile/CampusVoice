@@ -13,8 +13,8 @@ import { showToast } from "../ui/toast";
 
 export const navLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Submit Feedback", href: "/dashboard/submit", icon: MessageSquarePlus },
-  { label: "My Feedback", href: "/dashboard/feedback", icon: ClipboardList },
+  { label: "Submit Feedback", href: "/dashboard/submit-feedback", icon: MessageSquarePlus },
+  { label: "My Feedback", href: "/dashboard/my-feedback", icon: ClipboardList },
 ];
 
 export default function Sidebar() {

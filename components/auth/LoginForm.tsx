@@ -5,6 +5,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth";
 import { showToast } from "../ui/toast";
+import { getAuthErrorMessage } from "@/lib/authErrors";
 
 // --- Types ---
 interface FormData {
@@ -121,16 +122,14 @@ export default function LoginForm() {
       // Call supabase login with matricNumber as email mapping
       const user = await signIn(formData.matricNumber, formData.password);
 
-      if (!user) throw new Error("Invalid credentials");
-
       showToast("Login Successful!", "success");
 
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1200);
-
+      router.replace("/dashboard");
+      router.refresh();
+     
     } catch (err: any) {
-      showToast("Login Failed. Please try again.", "error");
+      const message = getAuthErrorMessage(err)
+      showToast(message, "error");
     } finally {
       setIsLoading(false);
     }

@@ -28,12 +28,7 @@ const quickActions = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col flex-1">
-      {/* Header */}
-      <DashboardHeader />
-
-      {/* Page Content */}
-      <main className="flex-1 px-6 md:px-8 py-8 flex flex-col gap-8">
+     <div>
 
         {/* Welcome Section */}
         <section>
@@ -47,7 +42,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Quick Action Cards */}
-        <section>
+        <section className="mt-5">
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">
             Quick Actions
           </h3>
@@ -59,7 +54,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Recent Activity */}
-        <section>
+        <section className="mt-5">
           <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">
             Recent Activity
           </h3>
@@ -73,8 +68,6 @@ export default function DashboardPage() {
             </p>
           </div>
         </section>
-
-      </main>
-    </div>
+      </div>
   );
 }

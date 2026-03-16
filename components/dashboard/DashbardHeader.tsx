@@ -41,7 +41,8 @@ export default function DashboardHeader({
       await signOut();
       showToast("Logged out successfully", "success")
       setTimeout(() => {
-        router.push("/login")
+        router.replace("/login")
+        router.refresh()
       }, 1000)
     } catch (error) {
       showToast("Failed to log out, please try again.", "error")
