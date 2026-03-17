@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { supabase } from "./supabaseClient"
+import { createClient } from "./supabaseClient";
 import { getUser } from "./auth"
 
 export function useAuth() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
 
   useEffect(() => {
     //Get current session
