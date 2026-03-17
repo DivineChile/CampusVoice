@@ -18,6 +18,21 @@ const navLinks = [
   { label: "My Feedback", href: "/dashboard/my-feedback", icon: ClipboardList },
 ];
 
+const pageConfig: Record<string, { title: string; subtitle: string }> = {
+  "/dashboard": {
+    title: "Student Dashboard",
+    subtitle: "Manage your feedback activities",
+  },
+  "/dashboard/submit-feedback": {
+    title: "Submit Feedback",
+    subtitle: "Share your experience with the institution",
+  },
+  "/dashboard/my-feedback": {
+    title: "My Feedback",
+    subtitle: "Track the feedback you have submitted",
+  },
+}
+
 interface DashboardHeaderProps {
   title?: string;
   subtitle?: string;
@@ -26,8 +41,8 @@ interface DashboardHeaderProps {
 }
 
 export default function DashboardHeader({
-  title = "Student Dashboard",
-  subtitle = "Manage your feedback activities",
+  title = "",
+  subtitle = "",
   studentName = "David Okafor",
   studentInitials = "DO",
 }: DashboardHeaderProps) {
@@ -35,15 +50,21 @@ export default function DashboardHeader({
   const pathname = usePathname();
   const router = useRouter();
 
+  const currentPage = pageConfig[pathname] || {
+    title: "Student Dashboard",
+    subtitle: "Manage your feedback activities"
+  }
+
+  const finalTitle = title || currentPage.title;
+  const finalSubtitle = subtitle || currentPage.subtitle
+
   const handleLogout = async () => {
     // TODO: Add real logout logic here
     try {
       await signOut();
       showToast("Logged out successfully", "success")
-      setTimeout(() => {
-        router.replace("/login")
-        router.refresh()
-      }, 1000)
+      router.replace("/login")
+      router.refresh()
     } catch (error) {
       showToast("Failed to log out, please try again.", "error")
     }
@@ -68,8 +89,8 @@ export default function DashboardHeader({
 
           {/* Title + subtitle */}
           <div>
-            <h1 className="text-base font-semibold text-gray-900 leading-tight">{title}</h1>
-            <p className="text-xs text-gray-500 hidden sm:block mt-0.5">{subtitle}</p>
+            <h1 className="text-base font-semibold text-gray-900 leading-tight">{finalTitle}</h1>
+            <p className="text-xs text-gray-500 hidden sm:block mt-0.5">{finalSubtitle}</p>
           </div>
         </div>
 

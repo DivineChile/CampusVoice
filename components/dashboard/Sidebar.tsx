@@ -26,9 +26,8 @@ export default function Sidebar() {
      try {
        await signOut();
        showToast("Logged out successfully", "success")
-       setTimeout(() => {
-         router.push("/login")
-       }, 1000)
+       router.replace("/login");
+       router.refresh();
      } catch (error) {
        showToast("Failed to log out, please try again.", "error")
      }
