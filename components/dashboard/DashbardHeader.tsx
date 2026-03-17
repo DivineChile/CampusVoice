@@ -125,9 +125,9 @@ export default function DashboardHeader({
           </div>
 
           {/* Avatar — mobile only (name hidden) */}
-          <div className="flex md:hidden items-center justify-center w-9 h-9 rounded-full bg-slate-300 shrink-0">
+          <Link href="/dashboard/profile" className="flex md:hidden items-center justify-center w-9 h-9 rounded-full bg-slate-300 shrink-0">
             <span className="text-sm font-semibold text-slate-700">{studentInitials}</span>
-          </div>
+          </Link>
 
           {/* Hamburger — mobile only */}
           <button
