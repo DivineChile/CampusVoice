@@ -257,8 +257,8 @@ export default function SubmitFeedbackPage() {
   }
 
   return (
-    <main className="flex-1 md:px-8">
-      <div className="max-w-2xl mx-auto">
+    <main className="flex-1">
+      <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Submit Feedback</h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -317,7 +317,7 @@ export default function SubmitFeedbackPage() {
                       key={value}
                       type="button"
                       onClick={() => handleChange("rating", value)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors duration-150
+                      className={`px-4 py-2 cursor-pointer rounded-lg text-sm font-medium border transition-colors duration-150
                         ${
                           isSelected
                             ? "bg-blue-600 text-white border-blue-600"

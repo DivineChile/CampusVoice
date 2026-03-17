@@ -1,9 +1,12 @@
-export interface Feedback {
-  id: string
-  category_id: string
-  title: string
-  rating: number
-  comment: string
-  sentiment: "positive" | "neutral" | "negative"
-  created_at: string
+import { FeedbackStatus } from "./feedbackStatus";
+
+export interface FeedbackItem {
+  id: string;
+  title: string;
+  category: string;
+  comment: string;
+  rating: number;
+  status: FeedbackStatus;
+  isAnonymous: boolean;
+  createdAt: string;
 }
