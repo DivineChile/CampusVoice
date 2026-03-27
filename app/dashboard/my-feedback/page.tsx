@@ -17,6 +17,8 @@ interface FeedbackRow {
   comment: string;
   rating: number;
   status: "pending" | "reviewed" | "resolved";
+  sentiment: "positive" | "neutral" | "negative";
+  system_response: string;
   is_anonymous: boolean;
   created_at: string;
 }
@@ -82,6 +84,8 @@ function mapFeedbackRow(row: FeedbackRow): FeedbackItem {
     comment: row.comment,
     rating: row.rating,
     status: row.status,
+    sentiment: row.sentiment,
+    systemResponse: row.system_response,
     isAnonymous: row.is_anonymous,
     createdAt: row.created_at,
   };
@@ -112,7 +116,7 @@ export default function MyFeedbackPage() {
         const { data, error } = await supabase
           .from("feedback")
           .select(
-            "id, title, category, comment, rating, status, is_anonymous, created_at"
+            "id, title, category, comment, rating, status, sentiment, system_response, is_anonymous, created_at"
           )
           .eq("student_id", user.id)
           .order("created_at", { ascending: false });
@@ -122,6 +126,7 @@ export default function MyFeedbackPage() {
         }
 
         const mappedData = (data || []).map(mapFeedbackRow);
+        
         setFeedbackItems(mappedData);
       } catch (error: any) {
         showToast(

@@ -7,6 +7,8 @@ export interface FeedbackItem {
   comment: string;
   rating: number;
   status: FeedbackStatus;
+  sentiment: "positive" | "neutral" | "negative" | null;
+  systemResponse: string | null;
   isAnonymous: boolean;
   createdAt: string;
 }

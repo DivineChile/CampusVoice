@@ -50,8 +50,8 @@ export default function Footer() {
               <h4 className="text-white text-sm font-semibold mb-4">Account</h4>
               <ul className="space-y-2">
                 {[
-                  { label: "Login", href: "#" },
-                  { label: "Register", href: "#" },
+                  { label: "Login", href: "/login" },
+                  { label: "Register", href: "/register" },
                 ].map((link) => (
                   <li key={link.label}>
                     <a

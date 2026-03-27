@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabaseClient";
 import { showToast } from "@/components/ui/toast";
+import { processFeedback } from "@/lib/feedbackEngine";
 
 interface FormData {
   category: string;
@@ -161,6 +162,7 @@ export default function SubmitFeedbackPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [systemResponse, setSystemResponse] = useState("");
 
   const handleChange = (
     field: keyof FormData,
@@ -193,19 +195,39 @@ export default function SubmitFeedbackPage() {
         return;
       }
 
+      const trimmedComment = formData.comment.trim();
+      const trimmedTitle = formData.title.trim();
+
+      const { sentiment, confidence, score, systemResponse } = processFeedback(
+        formData.category,
+        trimmedComment
+      );
+
+      console.log({
+        "sentiment": sentiment,
+        "confidence": confidence,
+        "score": score,
+        "systemResponse": systemResponse
+      })
+
       const { error } = await supabase.from("feedback").insert({
         student_id: user.id,
         category: formData.category,
-        title: formData.title.trim(),
-        comment: formData.comment.trim(),
+        title: trimmedTitle,
+        comment: trimmedComment,
         rating: formData.rating,
         is_anonymous: formData.anonymous,
+        sentiment,
+        sentiment_confidence: confidence,
+        sentiment_score: score,
+        system_response: systemResponse,
       });
 
       if (error) {
         throw error;
       }
 
+      setSystemResponse(systemResponse);
       showToast("Feedback submitted successfully.", "success");
       setIsSuccess(true);
     } catch (error: any) {
@@ -227,23 +249,36 @@ export default function SubmitFeedbackPage() {
       anonymous: false,
     });
     setErrors({});
+    setSystemResponse("");
     setIsSuccess(false);
   };
 
   if (isSuccess) {
     return (
-      <main className="flex-1 px-6 md:px-8 py-8 flex items-center justify-center">
+      <main className="flex-1 md:px-8 md:py-8 flex items-center justify-center">
         <div className="bg-white border p-8 border-gray-200 rounded-xl shadow-sm max-w-md w-full text-center">
           <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <div className="w-5 h-5 rounded-full bg-green-500" />
           </div>
+
           <h2 className="text-lg font-semibold text-gray-900 mb-2">
             Feedback Submitted
           </h2>
-          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+
+          {/* <p className="text-sm text-gray-500 mb-4 leading-relaxed">
             Thank you for your feedback. Your response has been recorded
             {formData.anonymous ? " anonymously" : ""}.
-          </p>
+          </p> */}
+
+          <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-left mb-6">
+            <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">
+              System Response
+            </p>
+            <p className="text-sm text-blue-900 leading-relaxed">
+              {systemResponse}
+            </p>
+          </div>
+
           <button
             onClick={handleReset}
             className="w-full bg-blue-600 text-white text-sm font-medium py-2.5 rounded-lg

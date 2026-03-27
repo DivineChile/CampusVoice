@@ -18,8 +18,7 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createClient()
- 
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -48,8 +47,6 @@ export default async function DashboardLayout({
 
       <div className="md:ml-60 flex flex-col min-h-screen">
         <DashboardHeader
-        // title={pathname === "/dashboard" ? "Student Dashboard" : pathname === "/dashboard/submit-feedback" ? "Submit Feedback" : pathname === "/dashboard/my-feedback" ? "My Feedback" : "Profile"}
-        // subtitle={pathname === "/dashboard" ? "Manage your feedback activities" : pathname === "/dashboard/submit-feedback" ? "Share your experience" : pathname === "/dashboard/my-feedback" ? "My Feedback" : "Profile"}
           studentName={studentName}
           studentInitials={studentInitials}
         />

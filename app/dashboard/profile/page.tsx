@@ -195,7 +195,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="flex-1 px-6 md:px-8 py-8">
+    <main className="flex-1 md:py-2">
       <div className="max-w-3xl mx-auto flex flex-col gap-6">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Profile Overview</h2>
