@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { signUp } from "@/lib/auth"
+import { signUpStudent } from "@/lib/auth"
 import { showToast } from "../ui/toast"
 import { getAuthErrorMessage } from "@/lib/authErrors"
 
@@ -148,7 +148,7 @@ export default function RegisterForm() {
     try {
 
       // Create auth account
-      const user = await signUp({
+      const user = await signUpStudent({
         email: formData.email,
         password: formData.password,
         fullName: formData.fullName,

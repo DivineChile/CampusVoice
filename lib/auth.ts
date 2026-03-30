@@ -9,7 +9,7 @@ interface SignUpParams {
   matricNumber: string
 }
 
-export async function signUp({
+export async function signUpStudent({
   email,
   password,
   fullName,
@@ -45,7 +45,7 @@ export async function signUp({
   return user
 }
 
-export async function signIn(matricNumber: string, password: string) {
+export async function signInStudent(matricNumber: string, password: string) {
   // 1️⃣ Get email from matric number using RPC
   const { data: email, error: lookupError } = await supabase.rpc(
     "get_email_by_matric",
@@ -69,6 +69,14 @@ export async function signIn(matricNumber: string, password: string) {
   if (error) throw error
 
   return data.user
+}
+
+export async function signInAdmin(email: string, password: string) {
+  const {data, error} = await supabase.auth.signInWithPassword({email, password})
+
+  if (error) throw error;
+
+  return data.user;
 }
 
 export async function signOut() {

@@ -9,6 +9,8 @@ import { showToast } from "@/components/ui/toast";
 import FeedbackCard from "@/components/dashboard/FeedbackCard";
 import { FeedbackItem } from "@/types/feedback";
 import SummaryCard from "@/components/dashboard/SummaryCard";
+import { CATEGORIES } from "@/utils/categories";
+import { STATUSES } from "@/utils/status";
 
 interface FeedbackRow {
   id: string;
@@ -22,24 +24,6 @@ interface FeedbackRow {
   is_anonymous: boolean;
   created_at: string;
 }
-
-const CATEGORIES = [
-  "All",
-  "Academics",
-  "Lecturers",
-  "Facilities",
-  "Administration",
-  "Hostel",
-  "Security",
-  "General",
-];
-
-const STATUSES: { label: string; value: string }[] = [
-  { label: "All Statuses", value: "all" },
-  { label: "Pending", value: "pending" },
-  { label: "Reviewed", value: "reviewed" },
-  { label: "Resolved", value: "resolved" },
-];
 
 function EmptyState() {
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Menu,
   X,
@@ -12,6 +12,8 @@ import {
   BarChart2,
   FileText,
 } from "lucide-react";
+import { signOut } from "@/lib/auth";
+import { showToast } from "../ui/toast";
 
 // ── Route title config ────────────────────────
 
@@ -52,6 +54,7 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ adminName, adminInitials }: AdminHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const meta = routeMeta[pathname] ?? {
@@ -59,10 +62,17 @@ export default function AdminHeader({ adminName, adminInitials }: AdminHeaderPro
     subtitle: "Institutional feedback management",
   };
 
-  const handleLogout = () => {
-    // TODO: Add real logout logic here
-    setMenuOpen(false);
-  };
+  const handleLogout = async () => {
+      try {
+        await signOut();
+        showToast("Logged out successfully", "success")
+        setMenuOpen(false);
+        router.replace("/admin-login");
+        router.refresh();
+      } catch (error) {
+        showToast("Failed to log out, please try again.", "error")
+      }
+    };
 
   return (
     <header className="sticky top-0 z-30 bg-slate-50 border-b border-slate-200">

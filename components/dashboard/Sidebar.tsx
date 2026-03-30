@@ -31,7 +31,7 @@ export default function Sidebar() {
      } catch (error) {
        showToast("Failed to log out, please try again.", "error")
      }
-   };
+  };
 
   return (
     <aside className="w-60 h-full bg-gray-900 flex flex-col">

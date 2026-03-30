@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   MessageSquareText,
@@ -9,6 +9,8 @@ import {
   FileText,
   LogOut,
 } from "lucide-react";
+import { signOut } from "@/lib/auth";
+import { showToast } from "../ui/toast";
 
 const navLinks = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
@@ -19,10 +21,17 @@ const navLinks = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
-  const handleLogout = () => {
-    // TODO: Add real logout logic here
-    // e.g. clear session/token, then router.push("/login")
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      showToast("Logged out successfully", "success")
+      router.replace("/admin-login");
+      router.refresh();
+    } catch (error) {
+      showToast("Failed to log out, please try again.", "error")
+    }
   };
 
   return (

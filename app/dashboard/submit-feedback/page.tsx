@@ -7,6 +7,7 @@ import { getUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabaseClient";
 import { showToast } from "@/components/ui/toast";
 import { processFeedback } from "@/lib/feedbackEngine";
+import { CATEGORIES } from "@/utils/categories";
 
 interface FormData {
   category: string;
@@ -22,16 +23,6 @@ interface FormErrors {
   comment?: string;
   rating?: string;
 }
-
-const CATEGORIES = [
-  "Academics",
-  "Lecturers",
-  "Facilities",
-  "Administration",
-  "Hostel",
-  "Security",
-  "General",
-];
 
 const RATINGS: { value: number; label: string }[] = [
   { value: 1, label: "Very Poor" },

@@ -1,0 +1,1 @@
+export type FeedbackSentiment = "positive" | "neutral" | "negative" | null;
