@@ -191,6 +191,7 @@ export default function SubmitFeedbackPage() {
 
       const { sentiment, confidence, score, systemResponse } = processFeedback(
         formData.category,
+        trimmedTitle,
         trimmedComment
       );
 
