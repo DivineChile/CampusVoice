@@ -88,7 +88,7 @@ function escapeCsv(value: string | number | null | undefined) {
   return `"${stringValue}"`;
 }
 
-function downloadCsv(filename: string, rows: string[][]) {
+function downloadCsv(filename: string, rows: (string | number | null | undefined)[][]) {
   const csv = rows.map((row) => row.map(escapeCsv).join(",")).join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
